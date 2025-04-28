@@ -313,3 +313,18 @@ button:hover {
   background: #a67c00;
 }
 
+.refresh-button {
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.refresh-button:hover {
+  background-color: #5753c9;
+}
+

@@ -13,31 +13,45 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 function DashboardPage() {
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
+
+  const fetchItems = () => {
     axios.get('/api/items')
       .then(res => setItems(Array.isArray(res.data) ? res.data : []))
       .catch(() => setItems([]));
+  
+  
+    };
+
+  useEffect(() => {
+    fetchItems();
   }, []);
 
+  
   const totalItems = items.length;
   const lowStock = items.filter(item => item.quantity < 5);
   const totalValue = items.reduce((acc, item) => acc + item.quantity * item.price, 0).toFixed(2);
   const mostStocked = [...items].sort((a, b) => b.quantity - a.quantity).slice(0, 3);
 
-  const ALL_CATEGORIES = ['Fruits', 'Vegetables', 'Food', 'Shoes', 'Stationery', 'Electronics', 'Books', 'Clothing', 'Toys', 'Home'];
-  const categoryCounts = ALL_CATEGORIES.map(cat =>
-    items.filter(item => item.category?.toLowerCase() === cat.toLowerCase()).length
-  );
+  const categoryMap = {};
+
+  items.forEach(item => {
+    const category = item.category || 'Uncategorized';
+    categoryMap[category] = (categoryMap[category] || 0) + 1;
+  });
+
+  const dynamicCategories = Object.keys(categoryMap);
+  const categoryCounts = Object.values(categoryMap);
 
   const categoryData = {
-    labels: ALL_CATEGORIES,
+    labels: dynamicCategories,
     datasets: [
       {
         label: 'Category Distribution',
         data: categoryCounts,
         backgroundColor: [
           '#6c63ff', '#00c9a7', '#ff6b6b', '#ffa500', '#2d98da',
-          '#9b59b6', '#3498db', '#e67e22', '#2ecc71', '#34495e'
+          '#9b59b6', '#3498db', '#e67e22', '#2ecc71', '#34495e',
+          '#fd79a8', '#00cec9', '#e84393', '#0984e3' // (optional extra colors)
         ],
         borderWidth: 1
       }
@@ -58,9 +72,12 @@ function DashboardPage() {
     <main className="container">
       <h2>Inventory Overview</h2>
 
+      {/* refresh button */}
+      <button onClick={fetchItems} className="refresh-button"> Refresh</button>
+
       <div className="dashboard">
         <div className="stat-box">Total Items: {totalItems}</div>
-        <div className="stat-box">Categories: {ALL_CATEGORIES.length}</div>
+        <div className="stat-box">Categories: {dynamicCategories.length}</div>
         <div className="stat-box">Low Stock: {lowStock.length}</div>
         <div className="stat-box">Inventory Value: ${totalValue}</div>
       </div>

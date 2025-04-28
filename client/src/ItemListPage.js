@@ -16,7 +16,7 @@ function ItemListPage() {
 
   return (
     <main className="container">
-      <h2>📦 Inventory List</h2>
+      <h2> Inventory List</h2>
       <ul className="item-list">
         {items.map(item => (
           <li key={item._id} className="item">
