@@ -328,3 +328,16 @@ button:hover {
   background-color: #5753c9;
 }
 
+.top-stocked-list {
+  display: flex;
+  flex-direction: column;
+ margin-left: 20px;
+}
+
+.low-stock-list {
+  display: flex;
+  flex-direction: column;
+ margin-left: 20px;
+
+}
+

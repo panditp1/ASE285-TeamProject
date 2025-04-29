@@ -1,0 +1,12 @@
+
+client/node_modules/
+server/node_modules/
+
+client/node_modules/.cache/
+server/node_modules/.cache/
+
+.env
+
+client/build/
+
+.DS_Store

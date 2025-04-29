@@ -33,7 +33,7 @@ exports.createItem = async (req, res) => {
     const savedItem = await item.save();
     res.status(201).json(savedItem);
   } catch (err) {
-    console.error("❌ Error in createItem:", err);
+    console.error(" Error in createItem:", err);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -113,7 +113,7 @@ exports.importCSV = async (req, res) => {
         });
     });
   } catch (err) {
-    console.error("❌ Error in importCSV:", err);
+    console.error(" Error in importCSV:", err);
     res.status(500).json({ message: 'Server error during CSV import' });
   } //making changes
 };

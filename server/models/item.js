@@ -11,7 +11,6 @@ const itemSchema = new mongoose.Schema({
       quantity: Number,
       timestamp: { type: Date, default: Date.now }
     }]
-  });
-  
+});
 
 module.exports = mongoose.model('Item', itemSchema);

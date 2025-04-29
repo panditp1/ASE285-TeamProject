@@ -21,22 +21,26 @@ function InventoryPage() {
     fetchItems();
   }, []);
 
-  const handleDelete = async (id) => {
-    const itemToDelete = items.find(item => item._id === id);
-    setItems(prev => prev.filter(item => item._id !== id));
-    setDeletedItem(itemToDelete);
+  const handleDelete = async (clickedItem) => {
+    const normalizedClickedName = clickedItem.name.trim().toLowerCase();
+    const normalizedClickedCategory = clickedItem.category.trim().toLowerCase();
 
-    const timeout = setTimeout(async () => {
-      try {
-        await axios.delete(`/api/items/${id}`);
-        setDeletedItem(null);
-      } catch (err) {
-        console.error('Permanent delete failed:', err);
-        fetchItems();
-      }
-    }, 5000);
+    const matchingItems = items.filter(item =>
+      item.name.trim().toLowerCase() === normalizedClickedName &&
+      item.category.trim().toLowerCase() === normalizedClickedCategory
+    );
 
-    setUndoTimeout(timeout);
+    try {
+      await Promise.all(matchingItems.map(item =>
+        axios.delete(`/api/items/${item._id}`)
+      ));
+      setSuccessMessage(`Deleted all "${clickedItem.name}" items.`);
+      fetchItems();
+      setTimeout(() => setSuccessMessage(''), 3000);
+    } catch (err) {
+      console.error('Error deleting items:', err);
+      fetchItems();
+    }
   };
 
   const handleUndo = () => {
@@ -91,6 +95,20 @@ function InventoryPage() {
     .filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
     .filter(item => selectedCategory === 'All' || item.category === selectedCategory);
 
+  const groupedItems = {};
+  filteredItems.forEach(item => {
+    const key = item.name.trim().toLowerCase() + '|' + (item.category?.trim().toLowerCase() || 'uncategorized');
+    if (!groupedItems[key]) {
+      groupedItems[key] = { ...item, quantity: Number(item.quantity), price: Number(item.price) };
+    } else {
+      groupedItems[key].quantity += Number(item.quantity);
+      groupedItems[key].price += Number(item.price);
+    }
+  });
+  const finalItems = Object.values(groupedItems);
+
+  const lowStock = finalItems.filter(item => item.quantity < 5);
+
   return (
     <main className="container">
       <h2>My Inventory</h2>
@@ -110,7 +128,19 @@ function InventoryPage() {
         <input name="name" placeholder="Item Name" value={form.name} onChange={handleChange} required />
         <input name="quantity" type="number" placeholder="Quantity" value={form.quantity} onChange={handleChange} required />
         <input name="price" type="number" placeholder="Price" value={form.price} onChange={handleChange} required />
-        <input name="category" placeholder="Category" value={form.category} onChange={handleChange} required />
+
+        <select name="category" value={form.category} onChange={handleChange} required>
+          <option value="">Select Category</option>
+          <option value="Food">Food</option>
+          <option value="Shoes">Shoes</option>
+          <option value="Stationery">Stationery</option>
+          <option value="Tech">Tech</option>
+          <option value="Drinks">Drinks</option>
+          <option value="Fruits">Fruits</option>
+          <option value="Books">Books</option>
+          <option value="Cosmetics">Cosmetics</option>
+        </select>
+
         <input name="tags" placeholder="Tags (e.g. tech;blue)" value={form.tags} onChange={handleChange} />
         <button type="submit">{editingId ? 'Update Item' : 'Add Item'}</button>
       </form>
@@ -138,15 +168,25 @@ function InventoryPage() {
       </div>
 
       <ul className="item-list">
-        {filteredItems.map(item => (
-          <li key={item._id} className="item">
-            <strong>{item.name}</strong> – Qty: {item.quantity} – ${item.price.toFixed(2)}<br />
+        {finalItems.map(item => (
+          <li key={item._id || item.name + item.category} className="item">
+            <strong>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</strong> – Qty: {item.quantity} – ${item.price.toFixed(2)}<br />
             <em>Category:</em> {item.category} &nbsp;&nbsp;&nbsp;
             <em>Tags:</em> {item.tags.join(', ')}
+
             <div className="actions">
               <button onClick={() => handleEdit(item)}>✏️</button>
-              <button onClick={() => handleDelete(item._id)}>🗑️</button>
+              <button onClick={() => handleDelete(item)}>🗑️</button>
             </div>
+          </li>
+        ))}
+      </ul>
+
+      <h3>Low Stock Items</h3>
+      <ul className="low-stock-list">
+        {lowStock.map((item, index) => (
+          <li key={index}>
+            {item.name.charAt(0).toUpperCase() + item.name.slice(1)} (Qty: {item.quantity})
           </li>
         ))}
       </ul>
