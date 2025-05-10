@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from './UserContext';
 import './styles.css';
 
 function HomePage() {
+  const { user } = useUser();
   const [form, setForm] = useState({ name: '', quantity: '', price: '', category: '', tags: '' });
   const [tagCount, setTagCount] = useState(0);
   const [editingId, setEditingId] = useState(null);
@@ -39,7 +41,7 @@ function HomePage() {
   const handleSubmit = async e => {
     e.preventDefault();
     const tagsArray = form.tags.split(';').map(tag => tag.trim()).filter(Boolean);
-    const payload = { ...form, tags: tagsArray };
+    const payload = { ...form, tags: tagsArray, userEmail: user?.email };
 
     try {
       if (editingId) {
@@ -69,7 +71,6 @@ function HomePage() {
         <input name="quantity" type="number" placeholder="Quantity" value={form.quantity} onChange={handleChange} required />
         <input name="price" type="number" placeholder="Price" value={form.price} onChange={handleChange} required />
         <select name="category" value={form.category} onChange={handleChange} required>
-    
           <option value="">Select Category</option> 
           <option value="Food">Food</option>
           <option value="Shoes">Shoes</option>
@@ -84,11 +85,8 @@ function HomePage() {
         <p className="tag-count">{tagCount} tag{tagCount !== 1 ? 's' : ''}</p>
         <button type="submit">{editingId ? 'Update' : 'Add'} Item</button>
       </form>
-    
     </main>
   );
 }
-
-// Small edit by Priyanka for toggle feature PR
 
 export default HomePage;

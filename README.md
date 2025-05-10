@@ -1,77 +1,101 @@
-#  Team 2 – Inventory Manager
+# Inventory Manager – Team 2
 
-## Project Title
-Inventory Manager
-
-##  Slogan
+## Slogan
 Simple, Fast, and Reliable Inventory Tracking.
 
-##  Goal
+## Goal
 Build a user-friendly inventory management system using Node.js and MongoDB that allows authorized users to efficiently manage stock, track inventory in real-time, and receive smart alerts for low-stock items.
 
----
+## Features
 
-##  Planned Features
+### Add Items
+- Add inventory entries with name, quantity, price, category, and optional tags.
 
-###  Add Items  
-Create new inventory entries with item name, quantity, price, and category.
+### View Stock & Search
+- View all items on a central dashboard.
+- Search by name, category, or tags.
+- Filter items and sort by availability or category.
 
-###  View Stock & Search  
-Display all inventory items with real-time stock levels; search by name or category.
+### Update & Manage Inventory
+- Update item details including name, quantity, price, and category.
+- View item history graph with quantity changes over time.
+- Delete or disable discontinued items.
 
-###  Update & Manage Inventory  
-Adjust item quantities, remove discontinued items, and track changes.
+### Low Stock Notifications
+- Receive email alerts via EmailJS when item quantity falls below threshold.
+- Set custom low-stock thresholds per item.
+- Visually flag low-stock items in the dashboard.
 
-###  Low Stock Notifications  
-Notify user when items fall below a set quantity threshold.
+### Import & Export
+- Import inventory items from `.csv` files.
+- Export inventory to `.csv` for external use.
+- Validate imported entries to ensure format correctness.
 
----
+### Secure Login
+- Authenticate with a valid email and password (via environment variables).
+
+### History Tracking
+- Track item changes with timestamped logs to audit inventory changes.
 
 ## Tools & Technologies
 
-- **Language/Runtime:** JavaScript (Node.js)
-- **Database:** MongoDB (with Mongoose for individual project)
-- **IDE:** Visual Studio Code (team) & WebStorm (individual)
-- **Version Control:** GitHub (team leader repo, members fork)
-- **Documentation:** Markdown + Pandoc / Notion → Markdown
-- **Presentation:** Marp (Markdown-based slides)
-- **Team Communication:** Discord
+- **Runtime:** Node.js
+- **Database:** MongoDB with Mongoose
+- **Frontend:** React
+- **API Testing:** Jest, Supertest
+- **IDE:** Visual Studio Code & WebStorm
+- **Docs:** Markdown, Pandoc
+- **CI:** GitHub Actions
+- **Communication:** Discord
 
----
+## Getting Started
 
-##  Meeting & Milestone Plan
+### Prerequisites
+- Node.js (v18+)
+- MongoDB (local or Atlas)
 
-- **Team Meetings:** Weekly on Wednesdays at 6 PM  
-- **Extra Check-ins:** Discord group chat  
-- **Milestone 1:** Finalize Features – March 31  
-- **Milestone 2:** Sprint 1 Complete – April 14  
-- **Sprint 3 Complete:** April 28  
-- **Internal Deadline:** April 28  
-- **Official Deadline:** May 1
+### Installation
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-org/inventory-manager.git
+   cd inventory-manager
+   ```
 
----
+2. Install dependencies:
+   ```
+   npm install
+   cd client
+   npm install
+   cd ../server
+   npm install
+   ```
+
+3. Set up environment variables in `server/.env`:
+   ```
+   MONGODB_URI=mongodb://localhost:27017/inventory
+   LOGIN_EMAILS=admin@example.com
+   LOGIN_PASSWORDS=password123
+   ```
+
+4. Start the development server:
+   ```
+   npm run dev
+   ```
+
+### Testing
+To run backend tests:
+```
+npm test
+```
 
 ## Team Members
+- **Jacob Nelson** – Team Lead
+- **Priyanka Pandit** 
+- **Preston Jackson**
 
-- **Priyanka Pandit** – Team Leader  
-- **Preston Jackson**  
-- **Jacob Nelson**  
-- **Doug Broughton**
-
----
-
-## Related Files (In Repo)
-
-- `requirements.md` – Functional & non-functional requirements  
-- `user-stories.md` – Written user stories for all features  
-- `test-plan.md` – Integration, regression, and acceptance tests  
-- `backlog.md` – Product + sprint backlogs and milestones  
-- `team-rules.md` – Agreed upon team rules and expectations
-
----
-
-## Project Status
-
- Setup complete  
- Sprint 1 in progress  
-More features coming soon!
+## Project Files
+- `requirements.md` – Feature requirements
+- `user-stories.md` – Expanded user stories
+- `test-plan.md` – Testing methodology and cases
+- `team-rules.md` – Team collaboration agreements
+- `user-stories.md` – User stories

@@ -5,12 +5,19 @@
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "client": "npm run --prefix client start",
     "server": "npm run --prefix server start",
-    "build": "npm run --prefix client build"
+    "build": "npm run --prefix client build",
+    "test": "jest"
   },
   "dependencies": {
+    "dotenv": "^16.5.0",
+    "mongoose": "^8.14.1",
     "react": "^19.1.0"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "concurrently": "^9.1.2",
+    "jest": "^29.7.0",
+    "supertest": "^7.1.0"
   }
 }

@@ -13,9 +13,9 @@
     "react-scripts": "5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build"
-  },
+  "start": "react-scripts start",
+  "build": "react-scripts build"
+},
   "browserslist": {
     "production": [
       ">0.2%",
@@ -28,5 +28,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5001"
+  "proxy": "http://localhost:5000"
 }

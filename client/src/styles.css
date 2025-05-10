@@ -313,3 +313,42 @@ button:hover {
   background: #a67c00;
 }
 
+.controls {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.controls button,
+.import-label {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.controls button:hover,
+.import-label:hover {
+  background-color: #0056b3;
+}
+
+.import-label {
+  display: inline-block;
+  position: relative;
+}
+
+.import-label input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
